@@ -1,32 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var Client = require('mariasql');
+var helpers = require('../controllers/homeController.js');
 
 
+module.exports = function (app) {
+	app.route('/')
+		.get(helpers.allUsers)
+		//.post(helpers.createUser);
+
+};
 
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-	var c = new Client({
-	  host: '127.0.0.1',
-	  user: 'root',
-	  password: '',
-	  db: 'test'
-	});
-
-	var prep = c.prepare('SELECT name FROM User');
-
-	c.query(prep(), function(err, rows) {
-	  if (err)
-	    throw err;
-	  console.dir(rows);
-	});
-
-	c.end();
-	
-
-
-	res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
