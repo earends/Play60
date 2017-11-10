@@ -1,0 +1,24 @@
+	var c = new Client({
+		  host: '127.0.0.1',
+		  user: 'root',
+		  password: '',
+		  db: 'test'
+		});
+
+		var prep = c.prepare('SELECT name FROM User');
+
+		c.query(prep(), function(err, rows) {
+		  if (err)
+		    throw err;
+		  console.dir(rows);
+		});
+
+		c.end();
+
+
+		to start and stop server
+		mysql.server start
+		mysql.server stop
+
+		password = '' // empty string
+		

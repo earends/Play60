@@ -1,0 +1,21 @@
+doctype html
+html(lang='en')
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css", integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M", crossorigin="anonymous")
+  body
+    div(class = 'container')
+      h1(class = 'text-center') Login to Play60!
+      form(method='POST')
+        div(class = 'form-group')
+          label Email Address
+          input(type = 'email' class = 'form-control' name = 'email_input' aria-describedby="emailHelp" placeholder="Enter email")
+        div(class = 'form-group')
+          label Password
+          input(type = 'password' class = 'form-control' name = 'password_input' aria-describedby="passwordHelp" placeholder="Password")
+        button(type = 'submit' class = 'btn btn-primary') Login!
+        div
+          a(href = '/signup') Signup?
