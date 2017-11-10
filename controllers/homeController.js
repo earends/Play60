@@ -15,7 +15,7 @@ module.exports = {
 		c.query(find(), function(err, rows) {
 		  if (err)
 		    throw err;
-		  res.render('home', { postings: rows });
+		  res.render('home', { uid:req.params.id, postings: rows });
 		  
 		});
 
@@ -111,6 +111,10 @@ module.exports = {
 		});
 
 		c.end();
+	},
+
+	posting(req,res) {
+		res.send(req.params.id);
 	}
 
 

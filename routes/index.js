@@ -31,6 +31,8 @@ router.get('/:id/profile',helpers.profile);
 //get user profile edit page
 router.get('/:id/profile_settings',helpers.profile_settings);
 
+router.get('/:id/home/:id',helpers.posting);
+
 //post user profile settings save page
 router.post('/:id/profile_settings',helpers.profile_settings_save);
 
@@ -42,6 +44,7 @@ router.post('/signup',helpers.signup_post);
 
 //create post POST
 router.post('/:id/createPost',helpers.createPost_save);
+
 
 
 module.exports = router;

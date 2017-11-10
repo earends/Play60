@@ -4,5 +4,5 @@ block content
     h2(class = 'text-center') Available Games
     ul(class = 'list-group')
       each val in postings
-        a(href = '')
-          li( class = 'list-group-item')=val.title
+        a(href = '/' + uid + '/home/' + val.PID)
+          li(class = 'list-group-item')=val.title
