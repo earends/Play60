@@ -13,6 +13,8 @@ block content
         if !owner
           button(type = 'submit' name="going" value="going") Going!
           button(type = 'submit' name="maybe" value="maybe") Maybe?
+        else
+          button(type = 'submit' name ='edit' value = 'edit') Edit Post
       div(style = 'float:right')
         p=data.description
       

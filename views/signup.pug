@@ -26,5 +26,13 @@ html(lang='en')
           label Confirm Password
           input(type = 'password' class = 'form-control' name = 'password_c_input' aria-describedby="passwordHelp" placeholder="Confirm Password")
         button(type = 'submit' class = 'btn btn-primary') Signup!
+        if error == 'in-use'
+          div(class="alert alert-danger" role="alert")
+            label(style = 'margin-left:50px') Email already in use
+        if error == 'password-match'
+          div(class="alert alert-danger" role="alert")
+            label(style = 'margin-left:50px') Passwords do not match
+
         div
-          a(href = '/login') Login?
+          label Already have an account?
+          a(href = '/login')    Login!

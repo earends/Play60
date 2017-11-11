@@ -28,13 +28,13 @@ router.get('/:id/createPost',helpers.createPost);
 //get user profile page
 router.get('/:id/profile',helpers.profile);
 
-//get user profile edit page
-router.get('/:id/profile_settings',helpers.profile_settings);
 
-router.get('/:id/home/:pid',helpers.posting);
+//GET individual posting
+router.get('/:id/home/:pid',helpers.posting_get);
 
-//post user profile settings save page
-router.post('/:id/profile_settings',helpers.profile_settings_save);
+//GET edit indiviudal posting
+router.get('/:id/home/:pid/edit',helpers.posting_update_get);
+
 
 //post login info
 router.post('/login',helpers.login_post);
@@ -46,12 +46,16 @@ router.post('/signup',helpers.signup_post);
 router.post('/:id/createPost',helpers.createPost_save);
 
 //update posting for going and maybe
-router.post('/:id/home/:pid',helpers.posting_update);
+//when you click either edit, going, or maybe
+router.post('/:id/home/:pid',helpers.posting_post);
 
 //update filters
 router.post('/:id/home/',helpers.home_update);
 
+//update posting details
+router.post('/:id/home/:pid/edit',helpers.posting_update_post);
 
+router.post('/:id/profile',helpers.profile_post);
 
 module.exports = router;
 

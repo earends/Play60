@@ -1,5 +1,26 @@
 extends layout
 block content
   div(class ='container')
-    h1(class = 'text-center') Welcome #{data[0].name}
+    h1(class = 'text-center') Welcome #{data.name}
+    h4 Update Info
+    form(method='POST')
+      div(class = 'form-group')
+        label Name
+        input(type = 'text' class = 'form-control' name = 'name_input' aria-describedby="emailHelp" placeholder="Joe Mixon")
+      div(class = 'form-group')
+        label Age
+        input(type = 'text' class = 'form-control' name = 'age_input' aria-describedby="emailHelp" placeholder="18")
+      div(class = 'form-group')
+        label Email Address
+        input(type = 'email' class = 'form-control' name = 'email_input' aria-describedby="emailHelp" placeholder="Enter email")
+      div(class = 'form-group')
+        label Previous Password
+        input(type = 'password' class = 'form-control' name = 'pre_password_input' aria-describedby="passwordHelp" placeholder="Password")
+      div(class = 'form-group')
+        label New Password
+        input(type = 'password' class = 'form-control' name = 'new_password_input' aria-describedby="passwordHelp" placeholder="Password")
+      div(class = 'form-group')
+        label Confirm Password
+        input(type = 'password' class = 'form-control' name = 'password_c_input' aria-describedby="passwordHelp" placeholder="Confirm Password")
+      button(type = 'submit' class = 'btn btn-primary') Save Changes!
     

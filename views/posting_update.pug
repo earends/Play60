@@ -1,0 +1,21 @@
+extends layout
+block content
+  div(class = 'container')
+    h1(class = 'text-center') Edit #{title}
+  form(method='POST')
+        div(class = 'form-group')
+          label Title
+          input(type = 'text' class = 'form-control' name = 'title_input' aria-describedby="emailHelp" placeholder="Enter a Title")
+        div(class = 'form-group')
+          label Game
+          input(type = 'text' class = 'form-control' name = 'game_input' aria-describedby="passwordHelp" placeholder="Football")
+        div(class = 'form-group')
+          label Time of Event
+          input(type = 'text' class = 'form-control' name = 'time_input' aria-describedby="passwordHelp" placeholder="Friday night at 7pm")
+        div(class = 'form-group')
+          label Zipcode
+          input(type = 'text' class = 'form-control' name = 'zip_input' aria-describedby="passwordHelp" placeholder="98225")
+        div(class = 'form-group')
+          label Extra Details
+          textarea(cols = '4' type="text" class="form-control" name="details_input" placeholder="Extra info about event")
+        button(type = 'submit' class = 'btn btn-primary') Save Changes!

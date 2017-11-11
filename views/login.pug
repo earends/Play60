@@ -17,5 +17,8 @@ html(lang='en')
           label Password
           input(type = 'password' class = 'form-control' name = 'password_input' aria-describedby="passwordHelp" placeholder="Password")
         button(type = 'submit' class = 'btn btn-primary') Login!
+        if error == 'wrong'
+          div(class="alert alert-danger" role="alert")
+            label(style = 'margin-left:50px') Wrong email or password!
         div
           a(href = '/signup') Signup?
