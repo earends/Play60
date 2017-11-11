@@ -1,0 +1,20 @@
+extends layout
+block content
+  div(class = 'container')
+    h1(class = 'text-center')=data.title
+    form(method='POST')
+      div(style = 'float:left;')
+        div
+          label(class="form-check-label") Going:
+          label(style = 'margin-left:25px;')=data.going
+        div
+          label(class="form-check-label") Maybe:
+          label(style = 'margin-left:25px;')=data.maybe
+        if !owner
+          button(type = 'submit' name="going" value="going") Going!
+          button(type = 'submit' name="maybe" value="maybe") Maybe?
+      div(style = 'float:right')
+        p=data.description
+      
+        
+

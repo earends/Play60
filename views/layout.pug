@@ -9,11 +9,11 @@ html(lang='en')
   body(class = 'container')
     h1(class = 'text-center') Play60
     div(class = 'text-center')
-      a(href = "/" + 1 + "/home" ) Home 
+      a(href = "/" + uid + "/home" ) Home 
       a | 
-      a(href = "/" + 1 + "/createPost") Create Posting 
+      a(href = "/" + uid + "/createPost") Create Posting 
       a |  
-      a(href = "/" + 1 + "/profile") Profile
+      a(href = "/" + uid + "/profile") Profile
       a  |
       a  Get Involved
       a  |
@@ -25,7 +25,7 @@ html(lang='en')
       a  |
       a  Tennis
       a  |
-      a  Skiing
-      a  |
       a  Other
+      a  |
+      a(href = '/login')  Logout
   block content

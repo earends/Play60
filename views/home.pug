@@ -2,7 +2,43 @@ extends layout
 block content
   div(class = container)
     h2(class = 'text-center') Available Games
-    ul(class = 'list-group')
-      each val in postings
-        a(href = '/' + uid + '/home/' + val.PID)
-          li(class = 'list-group-item')=val.title
+    div(class = 'row')
+      div(class = 'col-sm-2')
+        h6(class = 'text-center') Posting Filters
+        form(method = 'POST')
+          div(class = 'form-check')
+            label(class = 'form-check-label') 
+              input(class="form-check-input" type="checkbox" name="owned" value="owned") 
+              Owned Owned by You
+          div(class = 'form-check')
+            label(class = 'form-check-label') 
+              input(class="form-check-input" type="checkbox" name="football" value="football") 
+              Owned Football
+          div(class = 'form-check')
+            label(class = 'form-check-label') 
+              input(class="form-check-input" type="checkbox" name="soccer" value="soccer") 
+              Owned Soccer
+          div(class = 'form-check')
+            label(class = 'form-check-label') 
+              input(class="form-check-input" type="checkbox" name="basketball" value="basketball") 
+              Owned Basketball
+          div(class = 'form-check')
+            label(class = 'form-check-label') 
+              input(class="form-check-input" type="checkbox" name="baseball" value="baseball") 
+              Owned Baseball
+          div(class = 'form-check')
+            label(class = 'form-check-label') 
+              input(class="form-check-input" type="checkbox" name="other" value="other") 
+              Owned Other Sport
+          div(class = 'form-group')
+            label(class = 'form-check-label') Zipcode
+            input(type="text" class="form-control" name="zip_input" placeholder="99258") 
+          button(type = 'submit' class = 'btn btn-primary') Submit!
+             
+
+      div(class = 'col-sm-10')
+        ul(class = 'list-group')
+          each val in postings
+            a(href = '/' + uid + '/home/' + val.PID)
+              li(class = 'list-group-item')=val.title
+      
