@@ -157,7 +157,7 @@ module.exports = {
 		  db: 'play60'
 		});
 
-		console.log('here')
+		
 		if (req.body.going == null && req.body.maybe == null) {
 			console.log('edit clicked')
 			res.redirect('/' + req.params.id +/home/ + req.params.pid + '/edit');
@@ -200,8 +200,74 @@ module.exports = {
 
 	},
 
-	home_update(req,res) {
-		res.send('home_update');
+	home_post(req,res) {
+		
+		var string = 'SELECT * FROM Posting ';
+		first_flag = true;
+		
+		if (req.body.owned != null) {
+			string = string + "WHERE UID = " + "'" + req.params.id + "'";
+			first_flag = false
+
+		}
+		if (req.body.football != null) {
+			if (first_flag) {
+				string = string + " WHERE game = 'football' ";
+				first_flag = false;
+			} else {
+				string = string + " OR game = 'football' ";
+			}
+
+		}
+		if (req.body.soccer != null) {
+			if (first_flag) {
+				string = string + " WHERE game = 'soccer' ";
+				first_flag = false;
+			} else {
+				string = string + " OR game = 'soccer' ";
+			}
+		}
+		if (req.body.basketball != null) {
+			if (first_flag) {
+				string = string + " WHERE game = 'basketball' ";
+				first_flag = false;
+			} else {
+				string = string + " OR game = 'basketball' ";
+			}
+		}
+		if (req.body.baseball != null) {
+			if (first_flag) {
+				string = string + " WHERE game = 'baseball' ";
+				first_flag = false;
+			} else {
+				string = string + " OR game = 'baseball' ";
+			}
+		}
+		
+		if (req.body.zip_input != '') {
+			if (first_flag) {
+				string = string + " WHERE zipcode = '" + req.body.zip_input + "'";
+				first_flag = false;
+			} else {
+				string = string + " OR zipcode = '" + req.body.zip_input + "'";
+			}
+		}
+		var c = new Client({
+		  host: '127.0.0.1',
+		  user: 'root',
+		  password: '',
+		  db: 'play60'
+		});
+
+		var get = c.prepare(string)
+		c.query(get(), function(err, rows) {
+			if (err)
+				throw err
+			res.render('home',{ uid:req.params.id, postings: rows })
+		});
+
+
+		
 	},
 
 	posting_update_get(req,res) {

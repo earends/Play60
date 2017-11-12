@@ -50,7 +50,7 @@ router.post('/:id/createPost',helpers.createPost_save);
 router.post('/:id/home/:pid',helpers.posting_post);
 
 //update filters
-router.post('/:id/home/',helpers.home_update);
+router.post('/:id/home/',helpers.home_post);
 
 //update posting details
 router.post('/:id/home/:pid/edit',helpers.posting_update_post);

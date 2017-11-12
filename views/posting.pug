@@ -16,7 +16,16 @@ block content
         else
           button(type = 'submit' name ='edit' value = 'edit') Edit Post
       div(style = 'float:right')
+        label Details:
         p=data.description
+        label Game:
+        label=data.game
+        div
+          label Location:   
+          label=data.zipcode
+          div
+            label Time of Event:
+            label=data.event_time
       
         
 
