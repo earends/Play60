@@ -1,6 +1,6 @@
 # Play60
 DB PROJECT
-Play 60- This is an experimental App meant to help me prepare for my Senior Design Project
+Play 60 This is an experimental App meant to help me prepare for my Senior Design Project
 
 Purpose of the project
 
@@ -14,7 +14,8 @@ To Run
 
 Clone into repo
 NPM install, possibly more... npm installs
-Currently has
+
+Integrated with maria sql, local database
 
 Login/signup capabilities
 Post capabilties
