@@ -39,6 +39,8 @@ module.exports = {
 		  password: '',
 		  db: 'play60'
 		});
+		var groupBy = c.prepare('SELECT AVG(cnt) as avg FROM (SELECT COUNT(*) AS cnt FROM Posting GROUP BY (UID)) AS T');
+
 		var get = c.prepare("SELECT * FROM User WHERE UID=" + "'" + req.params.id + "'");
 		var getCount = c.prepare("SELECT count(PID) as pidcount FROM Posting JOIN User USING (UID) WHERE UID =" + req.params.id);
 		var getCountBySport = c.prepare("SELECT game,count(PID) as pidcount FROM (SELECT * FROM Posting WHERE UID = " + req.params.id + ") as T GROUP BY (game)");
@@ -53,7 +55,11 @@ module.exports = {
 				c.query(getCountBySport(), function(err, rows2) {
 					if (err)
 						throw err
-					res.render('profile', {user:rows[0], uid: req.params.id,count_pid:rows1[0],p_sport_count:rows2});
+						c.query(groupBy(), function(err, rows3) {
+						if (err)
+							throw err
+						res.render('profile', {user:rows[0], uid: req.params.id,count_pid:rows1[0],p_sport_count:rows2,other:rows3[0]});
+					});
 				});
 				
 			});
@@ -127,8 +133,8 @@ module.exports = {
 		  password: '',
 		  db: 'play60'
 		});
-
-		var insert = c.prepare("INSERT INTO Posting (title,game,description,UID,event_time,zipcode) VALUES (" + "'" + req.body.title_input + "'" + "," + "'" + req.body.game_input + "'"+ "," + "'" + req.body.details_input + "'"+ "," + "'" + parseInt(req.params.id) + "'"+ "," + "'" + req.body.time_input + "'" + "," + "'" +req.body.zip_input + "'" + ")" )
+		var timeInMs = Date.now();
+		var insert = c.prepare("INSERT INTO Posting (title,game,description,UID,event_time,zipcode,timestamp) VALUES (" + "'" + req.body.title_input + "'" + "," + "'" + req.body.game_input + "'"+ "," + "'" + req.body.details_input + "'"+ "," + "'" + parseInt(req.params.id) + "'"+ "," + "'" + req.body.time_input + "'" + "," + "'" +req.body.zip_input + "'" + ","  + timeInMs +  ")" )
 		c.query(insert(), function(err, rows) {
 			if (err)
 				throw err
@@ -228,11 +234,17 @@ module.exports = {
 		
 		var string = 'SELECT * FROM Posting ';
 		first_flag = true;
-		
+		date_flag = false;
+		popularity_flag = false;
 		if (req.body.owned != null) {
 			string = string + "WHERE UID = " + "'" + req.params.id + "'";
 			first_flag = false
-
+		}
+		if (req.body.pop != null) {
+			popularity_flag = true;
+		}
+		if (req.body.date != null) {
+			date_flag = true;
 		}
 		if (req.body.football != null) {
 			if (first_flag) {
@@ -283,12 +295,46 @@ module.exports = {
 		  db: 'play60'
 		});
 
-		var get = c.prepare(string)
-		c.query(get(), function(err, rows) {
-			if (err)
-				throw err
-			res.render('home',{ uid:req.params.id, postings: rows })
-		});
+		if (popularity_flag) {
+			var findMost = 'SELECT game, count(*)  FROM Posting GROUP BY game order by count(*) DESC LIMIT 1';
+			var find = c.prepare(findMost);
+			c.query(find(), function(err, rows) {
+				if (err)
+					throw err
+				var game = rows[0].game;
+				findGame = 'SELECT * FROM Posting WHERE game = ' + "'" + game + "'";
+				if (date_flag) {
+					findGame = findGame + " ORDER BY timestamp DESC"
+				}
+				var findGamePrep = c.prepare(findGame);
+				c.query(findGamePrep(), function(err, rows1) {
+					if (err)
+						throw err
+					res.render('home',{ uid:req.params.id, postings: rows1 })
+				});
+				
+			});
+		} else {
+			if (date_flag) {
+			string = string + " ORDER BY timestamp"
+			var get = c.prepare(string)
+			c.query(get(), function(err, rows) {
+				if (err)
+					throw err
+				res.render('home',{ uid:req.params.id, postings: rows })
+			});
+			} else {
+				var get = c.prepare(string)
+				c.query(get(), function(err, rows) {
+					if (err)
+						throw err
+					res.render('home',{ uid:req.params.id, postings: rows })
+				});
+			}
+		}
+
+		
+		
 
 
 		
