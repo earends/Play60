@@ -40,10 +40,24 @@ module.exports = {
 		  db: 'play60'
 		});
 		var get = c.prepare("SELECT * FROM User WHERE UID=" + "'" + req.params.id + "'");
+		var getCount = c.prepare("SELECT count(PID) as pidcount FROM Posting JOIN User USING (UID) WHERE UID =" + req.params.id);
+		var getCountBySport = c.prepare("SELECT game,count(PID) as pidcount FROM (SELECT * FROM Posting WHERE UID = " + req.params.id + ") as T GROUP BY (game)");
+
+		//var getCountBySport = 
 		c.query(get(), function(err, rows) {
 			if (err)
 				throw err
-			res.render('profile', {data:rows[0], uid: req.params.id });
+			c.query(getCount(), function(err, rows1) {
+				if (err)
+					throw err
+				c.query(getCountBySport(), function(err, rows2) {
+					if (err)
+						throw err
+					res.render('profile', {user:rows[0], uid: req.params.id,count_pid:rows1[0],p_sport_count:rows2});
+				});
+				
+			});
+			
 		});	
 		
 	},
@@ -159,10 +173,20 @@ module.exports = {
 
 		
 		if (req.body.going == null && req.body.maybe == null) {
-			console.log('edit clicked')
-			res.redirect('/' + req.params.id +/home/ + req.params.pid + '/edit');
+			if (req.body.edit == null) {
+				console.log('delete clicked');
+				var d = c.prepare("DELETE FROM Posting WHERE PID = " + req.params.pid);
+				c.query(d(), function(err, rows) {
+					if (err)
+						throw err
+					res.redirect('/' + req.params.id + '/profile');
+				});
+				c.end();
+			} else {
+				console.log('edit clicked');
+				res.redirect('/' + req.params.id +/home/ + req.params.pid + '/edit');
+			}
 			
-
 		} else if (req.body.maybe == null) {
 			var maybe = c.prepare()
 			console.log('going clicked')
