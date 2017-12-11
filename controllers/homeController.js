@@ -58,7 +58,7 @@ module.exports = {
 						c.query(groupBy(), function(err, rows3) {
 						if (err)
 							throw err
-						res.render('profile', {user:rows[0], uid: req.params.id,count_pid:rows1[0],p_sport_count:rows2,other:rows3[0]});
+						res.render('profile', {user:rows[0], uid: req.params.id,count_pid:rows1[0],p_sport_count:rows2,other:rows3[0],findData:'none'});
 					});
 				});
 				
@@ -382,13 +382,50 @@ module.exports = {
 		  password: '',
 		  db: 'play60'
 		});
-		var update = c.prepare("UPDATE User SET name =" + "'" + req.body.name_input + "'" + "," + "age =" + "'" + req.body.age_input + "'"+ "," + "email =" + "'" + req.body.email_input + "'"+ "," + "password =" + "'" + req.body.new_password_input + "'" + 'WHERE UID =' + "'" + req.params.id + "'")
-		c.query(update(), function(err, rows) {
-			if (err)
-				throw err
-			res.redirect('/login');
-		});
-		c.end();
+
+		if (req.body.find != null) {
+			var find = c.prepare('SELECT name FROM User JOIN Posting using(UID) GROUP BY (UID) HAVING count(*) <=' + req.body.count)
+		    c.query(find(), function(err, rowss) {
+				if (err)
+					throw err
+				var groupBy = c.prepare('SELECT AVG(cnt) as avg FROM (SELECT COUNT(*) AS cnt FROM Posting GROUP BY (UID)) AS T');
+				var get = c.prepare("SELECT * FROM User WHERE UID=" + "'" + req.params.id + "'");
+				var getCount = c.prepare("SELECT count(PID) as pidcount FROM Posting JOIN User USING (UID) WHERE UID =" + req.params.id);
+				var getCountBySport = c.prepare("SELECT game,count(PID) as pidcount FROM (SELECT * FROM Posting WHERE UID = " + req.params.id + ") as T GROUP BY (game)");
+
+				//var getCountBySport = 
+				c.query(get(), function(err, rows) {
+					if (err)
+						throw err
+					c.query(getCount(), function(err, rows1) {
+						if (err)
+							throw err
+						c.query(getCountBySport(), function(err, rows2) {
+							if (err)
+								throw err
+								c.query(groupBy(), function(err, rows3) {
+								if (err)
+									throw err
+								res.render('profile', {user:rows[0], uid: req.params.id,count_pid:rows1[0],p_sport_count:rows2,other:rows3[0],findDataVal:true,findData:rowss});
+							});
+						});
+						
+					});
+					
+				});	
+			});
+			c.end();
+		}else{
+			var update = c.prepare("UPDATE User SET name =" + "'" + req.body.name_input + "'" + "," + "age =" + "'" + req.body.age_input + "'"+ "," + "email =" + "'" + req.body.email_input + "'"+ "," + "password =" + "'" + req.body.new_password_input + "'" + 'WHERE UID =' + "'" + req.params.id + "'")
+			c.query(update(), function(err, rows) {
+				if (err)
+					throw err
+				res.redirect('/login');
+			});
+			c.end();
+		}
+		
+		
 	}
  
 

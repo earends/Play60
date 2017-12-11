@@ -8,7 +8,7 @@ block content
         form(method='POST')
           div(class = 'form-group')
             label Name
-            input(type = 'text' class = 'form-control' name = 'name_input' aria-describedby="emailHelp" placeholder="Joe Mixon")
+            input(type = 'text' class = 'form-control' name = 'name_input' aria-describedby="emailHelp" placeholder="Geroge Kunthara")
           div(class = 'form-group')
             label Age
             input(type = 'text' class = 'form-control' name = 'age_input' aria-describedby="emailHelp" placeholder="18")
@@ -24,7 +24,7 @@ block content
           div(class = 'form-group')
             label Confirm Password
             input(type = 'password' class = 'form-control' name = 'password_c_input' aria-describedby="passwordHelp" placeholder="Confirm Password")
-          button(type = 'submit' class = 'btn btn-primary') Save Changes!
+          button(type = 'submit' class = 'btn btn-primary' name="save" value="save") Save Changes!
       div(class ='col-sm-4')
         h4 #{user.name}'s Stats
         p #{user.name} has:
@@ -34,9 +34,21 @@ block content
           each val in p_sport_count
             li #{val.pidcount} #{val.game} post(s)
         
-        h4 Other Stats
-        p others have:
+        h4 Everybodys Stats
+        p Everybody has:
         div
           li #{other.avg} post(s) on Average
+
+        h3 Search User by Number of Posts
+        form(method='POST')
+          div(class = 'form-group')
+            input(type = 'number' class = 'form-control' name = 'count')
+          button(type = 'submit' class = 'btn btn-primary' name = 'find' value = 'find') Find!
+          if findDataVal
+            div
+              each val in findData
+                li #{val.name} 
+
+
         
     
